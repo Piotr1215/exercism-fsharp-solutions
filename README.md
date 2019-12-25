@@ -6,7 +6,15 @@ Exercises are organized in form of "tracks" and after completing each exercise a
 
 In this repo you I have put together exercises and my solutions to them.
 
-## Next steps
+## Prerequisites
+
+- .NET Core SDK
+- Visual Studio Code with [Ionide Plugin](http://ionide.io/)
+- [Windows](https://fsharp.org/use/windows/)
+- [Linux](https://fsharp.org/use/linux/)
+- [MacOS](https://fsharp.org/use/mac/)
+
+## Try Exercism for yourself!
 
 If you would like to try out [Exercism](exercism.io), head out to their web page and check join language tracks you are interested in.
 
