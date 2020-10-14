@@ -9,4 +9,5 @@ let canAttack (queen1: int * int) (queen2: int * int) =
 
 let whiteQueen = (2, 4)
 let blackQueen = (6, 6)
+
 canAttack blackQueen whiteQueen

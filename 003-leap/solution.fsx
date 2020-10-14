@@ -7,6 +7,6 @@ let leapYear' (year: int): bool =
     |(true, false, true) -> true
     |(_, _, _) -> false
 
-leapYear 1995
+leapYear 1996
 
 leapYear' 2004
