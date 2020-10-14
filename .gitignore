@@ -1,2 +1,4 @@
 .vscode/*
 .ionide/*
+.fake
+.ionide
