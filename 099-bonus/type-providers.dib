@@ -1,0 +1,69 @@
+#!markdown
+
+# F# Type providers
+F# Type Providers are a very useful tool to query arbitrary sources of data
+
+#!markdown
+
+We can easily use nuget package from #r command
+
+#!fsharp
+
+#r "nuget: FSharp.Data"
+
+#!markdown
+
+We can declare a record type to create headers for our data representation
+
+#!fsharp
+
+type Pop = 
+    {
+        Country : string
+        Population : float
+    }
+
+#!markdown
+
+Let's open Fsharp.Date library and connect to __WorldBankData__ Service
+
+#!fsharp
+
+open FSharp.Data
+let data = WorldBankData.GetDataContext()
+
+#!markdown
+
+Now, since we are connected, let's run some code. We are going to check what countries are over 100 mil population and output data as table
+
+#!fsharp
+
+let bigCountries (year: int option) =
+  let optionValue = Option.defaultValue 2019 year
+  data.Countries
+  |> Seq.map (fun c -> {
+              Country = c.Name
+              Population =  c.Indicators.``Population, total``.[optionValue]})
+  |> Seq.filter (fun (pop) -> pop.Population > 10000000.)
+  |> Seq.sortByDescending (fun (pop)-> pop.Population)
+  |> Seq.toList
+
+bigCountries None
+
+#!markdown
+
+Let's do the samw with query expression syntax
+
+#!fsharp
+
+let bigCountriesQuery =
+    query {
+        for c in data.Countries do
+            where (c.Indicators.``Population, total``.[2019] > 10000000.)
+            sortByDescending c.Name
+            select ({
+                Country = c.Name
+                Population = c.Indicators.``Population, total``.[2019]})
+    }
+
+bigCountriesQuery |> Seq.toList

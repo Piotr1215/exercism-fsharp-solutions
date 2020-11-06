@@ -23,4 +23,12 @@ let bmiActivePattern wieght height =
     | _ -> "Out of scale"
 
 
-bmiActivePattern 34 23
+let peopleWithAgeDrink old =
+    match old with
+    | LessThan 14 -> "drink toddy"
+    | MoreThan 14 & LessThan 18 -> "drink coke"
+    | MoreThan 18 & LessThan 21 -> "drink beer"
+    | MoreThan 21 -> "drink whisky"
+    | _ -> "Wrong age"
+
+peopleWithAgeDrink 19
