@@ -67,3 +67,26 @@ let bigCountriesQuery =
     }
 
 bigCountriesQuery |> Seq.toList
+
+#!markdown
+
+And some charting for the end
+
+#!fsharp
+
+#r "nuget: XPlot.Plotly"
+open XPlot.Plotly
+
+let bigCountriesQueryChart =
+    query {
+        for c in data.Countries do
+            where (c.Indicators.``Population, total``.[2019] > 10000000.)
+            sortByDescending c.Indicators.``Population, total``.[2019]
+            take 20
+            select (c.Name, c.Indicators.``Population, total``.[2019])
+    }
+
+bigCountriesQueryChart 
+    |> Chart.Scatter 
+    |> Chart.WithTitle "Countries by size"
+    |> Chart.WithLegend false
