@@ -1,0 +1,24 @@
+#!fsharp
+
+#r "nuget: Deedle"
+open Deedle
+open System
+
+let tit = Frame.ReadCsv(__SOURCE_DIRECTORY__ + "\\titanic-passangers.csv")
+
+let byClass =
+  tit.GetColumn<bool>("Survived")
+  |> Series.applyLevel fst (fun s ->
+      // Get counts for 'True' and 'False' values of 'Survived'
+      series (Seq.countBy id s.Values))
+  // Create frame with 'Pclass' as row and 'Died' & 'Survived' columns
+  |> Frame.ofRows 
+  |> Frame.sortRowsByKey
+  |> Frame.indexColsWith ["Died"; "Survived"]
+
+// Add column with Total number of males/females on Titanic
+byClass?Total <- byClass?Died + byClass?Survived
+
+// Build a data frame with nice summary of rates in percents
+frame [ "Died (%)" => round (byClass?Died / byClass?Total * 100.0)
+        "Survived (%)" => round (byClass?Survived / byClass?Total * 100.0) ]
